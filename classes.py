@@ -94,6 +94,28 @@ class Hero(pygame.sprite.Sprite):
     def real_xy(self):
         return self.position
 
+class Bullet(pygame.sprite.Sprite):
+    image1 = pygame.image.load("data/bulletRed2.png")
+    image = pygame.transform.scale(image1, (16, 24))
+
+    def __init__(self, pos_x, pos_y, object, *group):
+        super().__init__(*group)
+        self.image = Bullet.image
+        self.rect = self.image.get_rect()
+        self.rect.x = object.rect.x
+        self.rect.y = object.rect.y
+
+        # x, y = pygame.mouse.get_pos()# нажатие мыши
+        dx, dy = pos_x - self.rect.x, pos_y - self.rect.y
+        len = math.hypot(dx, dy)
+        self.dx = dx / len
+        self.dy = dy / len
+        self.speed = 2
+
+
+    def update(self):
+        self.rect.x += self.dx * self.speed
+        self.rect.y += self.dy * self.speed
 
 class Camera:
     # зададим начальный сдвиг камеры
